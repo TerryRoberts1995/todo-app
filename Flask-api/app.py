@@ -72,5 +72,27 @@ def add_todo():
     return todo_schema.jsonify(todo)
 
 
+@app.route('/todo/<id>', methods=["PATCH"])
+def update_todo(id):
+
+    todo = Todo.query.get(id)
+
+    new_done = request.json["done"]
+
+    todo.done = new_done
+    db.session.commit()
+
+    return todo_schema.jsonify(todo)
+
+@app.route("/todo/<id>", methods=["DELETE"])
+def delete_todo(id):
+    record = Todo.query.get(id)
+
+    db.session.delete(record)
+    db.session.commit()
+
+    return jsonify({ "message": 'Deleted that item.'})
+
+
 if __name__ == "__main__":
     app.run(debug=True)
