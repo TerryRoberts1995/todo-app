@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-basedir = os.path.abspath(ps.path.dirname(__file__))
+basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(basedir, "app.sqlite")
 
 # Surpress python warning. 
@@ -31,15 +31,46 @@ class TodoSchema(ma.Schema):
     class Meta:
         fields = ('id','title','done')
 
-
+todo_schema = TodoSchema()
+todos_schema = TodoSchema(many = True)
 
 @app.route("/", methods=["GET"])
 def home():
     return "<p> Todo Flask API</p>"
 
 
+#GET 
+@app.route("/todos", methods=["GET"])
+def get_todos():
+    all_todos = Todo.query.all()
+
+    result = todos_schema.dump(all_todos)
+
+    return jsonify(result)
+
+@app.route("/todo/<id>")
+def get_todo(id):
+
+    todo = Todo.query.get(id)
+    result = todo_schema.dump(todo)
+
+    return jsonify(result)
+
+@app.route("/todo", methods=["POST"])
+def add_todo():
+    
+    title = request.json['title']
+    done = request.json['done']
+
+    new_todo = Todo(title, done)
+
+    db.session.add(new_todo)
+    db.session.commit()
+
+    todo = Todo.query.get(new_todo.id)
+
+    return todo_schema.jsonify(todo)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
-
-todo_schema = TodoSchema()
-todos_schema = TodoSchema(many = True)
