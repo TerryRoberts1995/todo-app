@@ -11,7 +11,7 @@ export default class TodoItem extends Component {
     }
 
     toggleDone = () => {
-        const { id } = this.props.todo
+        const { id, handleDelete } = this.props.todo
         const { done } = this.state
 
         axios.patch(`https://tjr-todo-flask.herokuapp.com/todo/${id}`, {
@@ -34,7 +34,7 @@ export default class TodoItem extends Component {
                     defaultChecked={this.state.done}
                 />
                 <p className={this.state.done ? "done" : null}>{this.props.todo.title}</p>
-                <button>X</button>
+                <button onClick={() => this.props.handleDelete(this.props.todo.id)}>X</button>
             </div>
         )
     }
