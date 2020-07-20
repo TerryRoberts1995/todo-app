@@ -15,6 +15,7 @@ body {
 
 .app-wrapper {
   margin-top: 2 rem;
+  color: white;
   display: grid;
   justify-items: center;
   background-color: #454544;
