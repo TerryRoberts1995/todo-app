@@ -11,5 +11,36 @@ body {
   justify-content: center;
   color: black;
   font-family: sans-serif;
-  font-size: 35px;
+}
+
+.app-wrapper {
+  margin-top: 2 rem;
+  display: grid;
+  justify-items: center;
+  background-color: #454544;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 5px 5px 5px #999;
+}
+
+input,
+button {
+  border-radius: 10px;
+  outline: none;
+  border: none;
+}
+
+button {
+  margin-left: 5px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  width: 80%;
+}
+
+.done {
+  color: black;
+  text-decoration: line-through;
 }
